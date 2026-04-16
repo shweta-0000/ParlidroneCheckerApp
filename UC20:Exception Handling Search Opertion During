@@ -1,0 +1,66 @@
+/**
+ * =========================================================
+ * MAIN CLASS – UseCase20TrainConsistMgmt
+ * =========================================================
+ *
+ * Use Case 20: Exception Handling During Search Operations
+ *
+ * Description:
+ * This class prevents searching when no bogies exist
+ * by applying fail-fast validation using exceptions.
+ *
+ * At this stage, the application:
+ * - Creates bogie collection
+ * - Validates system state
+ * - Throws exception if empty
+ * - Stops invalid search operation
+ * - Displays meaningful message
+ *
+ * This maps defensive programming using runtime exceptions.
+ *
+ * @author Developer
+ * @version 20.0
+ */
+
+public class UseCase20TrainConsistMgmt {
+
+    public static void main(String[] args) {
+
+        // Create bogie array (empty train scenario)
+        String[] bogieIds = {};
+
+        // Search key
+        String searchId = "BG101";
+
+        try {
+            // ---- FAIL-FAST VALIDATION ----
+            // Check if train has bogies before performing search
+            if (bogieIds.length == 0) {
+                throw new RuntimeException("No bogies available in the train. Search operation cannot be performed.");
+            }
+
+            // ---- SEARCH LOGIC (executes only if data exists) ----
+            boolean found = false;
+
+            for (String id : bogieIds) {
+                if (id.equals(searchId)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // Display result
+            if (found) {
+                System.out.println("Bogie " + searchId + " found in train.");
+            } else {
+                System.out.println("Bogie " + searchId + " not found.");
+            }
+
+        } catch (RuntimeException e) {
+            // Handle exception and display meaningful message
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        System.out.println("\nUC20 execution completed...");
+    }
+}
